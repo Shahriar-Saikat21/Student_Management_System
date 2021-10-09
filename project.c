@@ -24,7 +24,7 @@ int main()
 
     while (option != '0')
     {
-
+        system("cls");
         printf("\t\t====== Student Management Database System ======\n");
         printf("\n\t\t\t1. Create Student Account");
         printf("\n\t\t\t2. Display All Students Information");
@@ -54,9 +54,10 @@ int main()
             searchInfo();
             break;
         case '0':
+            printf("\n\t\t\tThank You\n\t\t\tCreated By : Shahriar Imtiaz Saikat\n");
             break;
         default:
-            printf("\n\t\t\t\tInvalid Option, Please Enter Right Option !\n");
+            printf("\n\t\t\tInvalid Option, Please Enter Right Option !\n");
         }
     }
     return 0;
@@ -64,8 +65,44 @@ int main()
 
 void createAccount()
 {
-    printf("Done\n");
+    FILE *fileOne = fopen("studentInfo.bin", "ab+");
+
+    if (fileOne == NULL)
+    {
+        printf("\n\t\t\tError !\n");
+    }
+
+    Student stundentInformation;
+
+    system("cls");
+
+    printf("\t\t\t====== Create Student Account ======\n");
+
+    printf("\n\t\t\tEnter Student's Name : ");
+    getchar();
+    gets(stundentInformation.studentName);
+    printf("\t\t\tEnter Student's ID : ");
+    getchar();
+    gets(stundentInformation.studentId);
+    printf("\t\t\tEnter Student's Depertment : ");
+    getchar();
+    gets(stundentInformation.studentDept);
+    printf("\t\t\tEnter Student's Address : ");
+    getchar();
+    gets(stundentInformation.studentAddress);
+    printf("\t\t\tEnter Student's Contact Number : ");
+    getchar();
+    gets(stundentInformation.studentContactNum);
+    printf("\t\t\tEnter Student's Current CGPA : ");
+    scanf("%f", &stundentInformation.studentCGPA);
+
+    fwrite(&stundentInformation, sizeof(stundentInformation), 1, fileOne);
+
+    printf("\n\n\t\t\tInformations have been stored sucessfully\n");
+    printf("\n\n\t\t\tEnter any keys to continue.......");
+    getch();
 }
+
 void displayInfo()
 {
     printf("Done\n");
