@@ -82,16 +82,12 @@ void createAccount()
     getchar();
     gets(stundentInformation.studentName);
     printf("\t\t\tEnter Student's ID : ");
-    getchar();
     gets(stundentInformation.studentId);
     printf("\t\t\tEnter Student's Depertment : ");
-    getchar();
     gets(stundentInformation.studentDept);
     printf("\t\t\tEnter Student's Address : ");
-    getchar();
     gets(stundentInformation.studentAddress);
     printf("\t\t\tEnter Student's Contact Number : ");
-    getchar();
     gets(stundentInformation.studentContactNum);
     printf("\t\t\tEnter Student's Current CGPA : ");
     scanf("%f", &stundentInformation.studentCGPA);
@@ -101,11 +97,38 @@ void createAccount()
     printf("\n\n\t\t\tInformations have been stored sucessfully\n");
     printf("\n\n\t\t\tEnter any keys to continue.......");
     getch();
+
+    fclose(fileOne);
 }
 
 void displayInfo()
 {
-    printf("Done\n");
+    FILE *fileOne = fopen("studentInfo.bin", "rb");
+
+    if (fileOne == NULL)
+    {
+        printf("\n\t\t\tError !\n");
+    }
+
+    Student stundentInformation;
+
+    system("cls");
+
+    printf("\t\t\t\t====== All Students Information ======\n");
+
+    printf("\n\n\t\t%-20s%-13s%-10s%-25s%-15s%-s\n", "Name", "ID", "Dept.", "Address", "Contact", "CGPA");
+    printf("\t\t----------------------------------------------------------------------------------------");
+
+    while (fread(&stundentInformation, sizeof(stundentInformation), 1, fileOne) == 1)
+    {
+        printf("\n\n\t\t%-20s%-13s%-10s%-25s%-15s%-.2f", stundentInformation.studentName, stundentInformation.studentId, stundentInformation.studentDept, stundentInformation.studentAddress, stundentInformation.studentContactNum, stundentInformation.studentCGPA);
+    }
+
+    printf("\n\n\n\t\tInformations have been stored sucessfully\n");
+    printf("\n\t\tEnter any keys to continue.......");
+    getch();
+
+    fclose(fileOne);
 }
 void updateInfo()
 {
