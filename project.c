@@ -156,12 +156,12 @@ void updateInfo()
     {
         if (strcmp(studentInformation.studentId, tempInformation.studentId) == 0)
         {
+            flag++;
             printf("\n\t\t\tChoose your option :\n\t\t\t1.Update Student Name\n\t\t\t2.Update Student Dept.\n\t\t\t3.Update Student Address\n\t\t\t4.Update Student Contact No.\n\t\t\t5.Update Student CPGA");
             printf("\n\n\t\t\tEnter Your Option : ");
             scanf("%d", &choice);
             if (choice == 1)
             {
-                flag++;
                 printf("\n\t\t\tEnter Student's Name to Update: ");
                 getchar();
                 gets(tempInformation.studentName);
@@ -172,7 +172,6 @@ void updateInfo()
             }
             else if (choice == 2)
             {
-                flag++;
                 printf("\n\t\t\tEnter Student's Dept. to Update: ");
                 getchar();
                 gets(tempInformation.studentDept);
@@ -183,7 +182,6 @@ void updateInfo()
             }
             else if (choice == 3)
             {
-                flag++;
                 printf("\n\t\t\tEnter Student's Address to Update: ");
                 getchar();
                 gets(tempInformation.studentAddress);
@@ -194,7 +192,6 @@ void updateInfo()
             }
             else if (choice == 4)
             {
-                flag++;
                 printf("\n\t\t\tEnter Student's Contact No. to Update: ");
                 getchar();
                 gets(tempInformation.studentContactNum);
@@ -205,7 +202,6 @@ void updateInfo()
             }
             else if (choice == 5)
             {
-                flag++;
                 printf("\n\t\t\tEnter Student's CGPA to Update: ");
                 scanf("%f", &tempInformation.studentCGPA);
                 studentInformation.studentCGPA = tempInformation.studentCGPA;
@@ -215,7 +211,6 @@ void updateInfo()
             }
             else
             {
-                flag++;
                 printf("\n\t\t\tInvalid Option.");
                 fwrite(&studentInformation, sizeof(studentInformation), 1, temp);
             }
@@ -243,7 +238,52 @@ void updateInfo()
 
 void deleteInfo()
 {
-    printf("Done\n");
+    FILE *fileOne = fopen("studentInfo.bin", "rb");
+    FILE *temp = fopen("temp.bin", "wb");
+
+    Student studentInformation, tempInformation;
+
+    int flag = 0;
+
+    if (fileOne == NULL || temp == NULL)
+    {
+        printf("\n\t\t\tError !\n");
+    }
+
+    system("cls");
+
+    printf("\t\t\t\t====== Delete Student Information ======\n");
+
+    printf("\n\t\t\tEnter Student's ID : ");
+    getchar();
+    gets(tempInformation.studentId);
+
+    while (fread(&studentInformation, sizeof(studentInformation), 1, fileOne) == 1)
+    {
+        if (strcmp(studentInformation.studentId, tempInformation.studentId) == 0)
+        {
+            flag++;
+            printf("\n\n\t\t\tInformation has been deleted successfully!\n\n");
+        }
+        else
+        {
+            fwrite(&studentInformation, sizeof(studentInformation), 1, temp);
+        }
+    }
+
+    fclose(fileOne);
+    fclose(temp);
+
+    remove("studentInfo.bin");
+    rename("temp.bin", "studentInfo.bin");
+
+    if (flag == 0)
+    {
+        printf("\n\t\t\tStudent Id is not found");
+    }
+
+    printf("\n\n\t\t\tEnter any keys to continue.......");
+    getch();
 }
 void searchInfo()
 {
