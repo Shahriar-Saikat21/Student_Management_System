@@ -243,7 +243,7 @@ void deleteInfo()
 
     Student studentInformation, tempInformation;
 
-    int flag = 0;
+    int choice, flag = 0;
 
     if (fileOne == NULL || temp == NULL)
     {
@@ -263,7 +263,21 @@ void deleteInfo()
         if (strcmp(studentInformation.studentId, tempInformation.studentId) == 0)
         {
             flag++;
-            printf("\n\n\t\t\tInformation has been deleted successfully!\n\n");
+            printf("\n\t\t\tAre you sure to delete ??\n\t\t\t\t1.Yes\n\t\t\t\t2.Back\n\t\t\t\tEnter Your Option : ");
+            scanf("%d", &choice);
+            if (choice == 1)
+            {
+                printf("\n\n\t\t\tInformation has been deleted successfully!\n\n");
+            }
+            else if (choice == 2)
+            {
+                fwrite(&studentInformation, sizeof(studentInformation), 1, temp);
+            }
+            else
+            {
+                printf("\n\t\t\tInvalid Option");
+                fwrite(&studentInformation, sizeof(studentInformation), 1, temp);
+            }
         }
         else
         {
