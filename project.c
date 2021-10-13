@@ -54,7 +54,7 @@ int main()
             searchInfo();
             break;
         case '0':
-            printf("\n\t\t\tThank You\n\t\t\tCreated By : Shahriar Imtiaz Saikat\n");
+            printf("\n\t\t\t====== Thank You ======\n\t\t====== Created By : Shahriar Imtiaz Saikat ======\n");
             break;
         default:
             printf("\n\t\t\tInvalid Option, Please Enter Right Option !\n");
@@ -299,7 +299,78 @@ void deleteInfo()
     printf("\n\n\t\t\tEnter any keys to continue.......");
     getch();
 }
+
 void searchInfo()
 {
-    printf("Done\n");
+    FILE *fileOne = fopen("studentInfo.bin", "rb");
+
+    Student studentInformation;
+
+    int choice, flag = 0;
+    char studentID[20], studentDept[10];
+
+    if (fileOne == NULL)
+    {
+        printf("\n\t\t\tError !\n");
+    }
+
+    system("cls");
+
+    printf("\t\t\t\t====== Search Student Information ======\n");
+
+    printf("\n\t\t\tChoose your option :\n\t\t\t1.Search by Student ID\n\t\t\t2.Search by Student Dept.");
+    printf("\n\n\t\t\tEnter Your Option : ");
+    scanf("%d", &choice);
+
+    if (choice == 1)
+    {
+        system("cls");
+        printf("\t\t\t\t====== Search Student Information ======\n");
+        printf("\n\n\t\t\tEnter Student ID : ");
+        getchar();
+        gets(studentID);
+        while (fread(&studentInformation, sizeof(studentInformation), 1, fileOne) == 1)
+        {
+            if (strcmp(studentInformation.studentId, studentID) == 0)
+            {
+                flag++;
+                printf("\n\t\t\tStudent Name : %s\n\t\t\tStudent ID : %s\n\t\t\tStudent Dept. : %s\n\t\t\tStudent Address : %s\n\t\t\tStudent Contact No. : %s\n\t\t\tStudent CGPA : %.2f\n", studentInformation.studentName, studentInformation.studentId, studentInformation.studentDept, studentInformation.studentAddress, studentInformation.studentContactNum, studentInformation.studentCGPA);
+            }
+        }
+        if (flag == 0)
+        {
+            printf("\n\t\t\tStudent Id is not found");
+        }
+    }
+    else if (choice == 2)
+    {
+        system("cls");
+        printf("\t\t\t\t====== Search Student Information ======\n");
+        printf("\n\n\t\t\tEnter Student Dept. : ");
+        getchar();
+        gets(studentDept);
+        printf("\n\n\t\t%-20s%-13s%-10s%-25s%-15s%-s\n", "Name", "ID", "Dept.", "Address", "Contact", "CGPA");
+        printf("\t\t----------------------------------------------------------------------------------------");
+        while (fread(&studentInformation, sizeof(studentInformation), 1, fileOne) == 1)
+        {
+            if (stricmp(studentInformation.studentDept, studentDept) == 0)
+            {
+                flag++;
+                printf("\n\n\t\t%-20s%-13s%-10s%-25s%-15s%-.2f", studentInformation.studentName, studentInformation.studentId, studentInformation.studentDept, studentInformation.studentAddress, studentInformation.studentContactNum, studentInformation.studentCGPA);
+            }
+        }
+        if (flag == 0)
+        {
+            printf("\n\t\t\tStudent Id is not found");
+        }
+    }
+    else
+    {
+        printf("\n\t\t\tInvalid Option");
+    }
+
+    fclose(fileOne);
+
+    printf("\n\n\n\t\t\tEnter any keys to continue.......");
+    getch();
 }
